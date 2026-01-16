@@ -1,0 +1,47 @@
+####################################################
+# List of packages to install on top of base image
+####################################################
+
+# Original
+bash
+coreutils
+util-linux
+iproute
+iputils
+NetworkManager
+openssh-server
+sudo
+less
+tmux
+man-db
+firewalld
+
+# Utilities
+vim-default-editor
+git
+vifm
+python3-pip
+
+# Cockpit
+cockpit
+cockpit-podman
+cockpit-selinux
+
+
+# Troubleshooting
+lshw
+htop
+ncdu
+nmap
+
+# Printer drivers
+# https://pagure.io/workstation-ostree-config/blob/main/f/common.yaml
+c2esp
+dymo-cups-drivers
+printer-driver-brlaser
+ptouch-driver
+splix
+
+# System
+kamera
+lm_sensors
