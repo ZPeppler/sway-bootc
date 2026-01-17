@@ -2,6 +2,9 @@
 # List of packages to install on top of base image
 ####################################################
 
+# SWAY
+sway-config-fedora
+
 # Original
 bash
 coreutils
@@ -20,13 +23,14 @@ firewalld
 vim-default-editor
 git
 vifm
+python3
 python3-pip
 
 # Cockpit
 cockpit
 cockpit-podman
 cockpit-selinux
-
+cockpit-files
 
 # Troubleshooting
 lshw
@@ -34,14 +38,3 @@ htop
 ncdu
 nmap
 
-# Printer drivers
-# https://pagure.io/workstation-ostree-config/blob/main/f/common.yaml
-c2esp
-dymo-cups-drivers
-printer-driver-brlaser
-ptouch-driver
-splix
-
-# System
-kamera
-lm_sensors
