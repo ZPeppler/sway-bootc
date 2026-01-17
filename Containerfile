@@ -5,20 +5,26 @@ RUN rmdir /opt && ln -s -T /var/opt /opt
 RUN mkdir /var/roothome
 
 #PREPARE PACKAGES
-COPY --chmod=0644 ./system/usr_local_share_bootc-min_packages-added /usr/local/share/bootc-min/packages-added
-RUN jq -r .packages[] /usr/share/rpm-ostree/treefile.json > /usr/local/share/bootc-min/packages-fedora-bootc 
+COPY --chmod=0644 ./system/usr_local_share_sway-bootc_packages-removed /usr/local/share/sway-bootc/packages-removed
+COPY --chmod=0644 ./system/usr_local_share_sway-bootc_packages-added /usr/local/share/sway-bootc/packages-added
+RUN jq -r .packages[] /usr/share/rpm-ostree/treefile.json > /usr/local/share/sway-bootc/packages-fedora-bootc 
 
 # INSTALL REPOS
 RUN dnf -y install dnf5-plugins
 
 # INSTALL PACKAGES
-RUN grep -vE '^#' /usr/local/share/bootc-min/packages-added | xargs dnf -y install --allowerasing
+RUN grep -vE '^#' /usr/local/share/sway-bootc/packages-added | xargs dnf -y install --allowerasing
+
+# REMOVE PACKAGES
+# RUN grep -vE '^#' /usr/local/share/sway-bootc/packages-removed | xargs dnf -y remove
+RUN dnf -y autoremove
+RUN dnf clean all
 
 # CONFIGURATION
 COPY --chmod=0755 ./system/usr_local_bin/* /usr/local/bin/
+COPY --chmod=0644 ./system/etc_skel_sway-bootc /etc/skel/.bashrc.d/sway-bootc
 
 # USERS
-COPY --chmod=0644 ./system/usr_lib_credstore_home.create.admin /usr/lib/credstore/home.create.admin
 
 COPY --chmod=0755 ./scripts/* /tmp/scripts/
 RUN /tmp/scripts/config-users
