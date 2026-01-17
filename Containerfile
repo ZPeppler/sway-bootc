@@ -21,19 +21,14 @@ RUN dnf -y autoremove
 RUN dnf clean all
 
 # CONFIGURATION
-COPY --chmod=0755 ./system/usr_local_bin/* /usr/local/bin/
 COPY --chmod=0644 ./system/etc_skel_sway-bootc /etc/skel/.bashrc.d/sway-bootc
 
 # USERS
-
-COPY --chmod=0755 ./scripts/* /tmp/scripts/
-RUN /tmp/scripts/config-users
-RUN /tmp/scripts/config-authselect && rm -r /tmp/scripts
+RUN useradd -m -u 1000 -G wheel zpeppler \
+  && echo 'zpeppler:password' | chpasswd
+RUN echo 'root:password' | chpasswd
 
 # SYSTEMD
-COPY --chmod=0644 ./systemd/usr_lib_systemd_system_firstboot-setup.service /usr/lib/systemd/system/firstboot-setup.service
-
-RUN systemctl enable firstboot-setup.service
 
 # CLEAN & CHECK
 RUN find /var/log -type f ! -empty -delete
